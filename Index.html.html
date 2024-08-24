@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Price Prediction</title>
+    <style>
+        body {
+            font-family: 'Book Antiqua', serif;
+            background: url('https://i.pinimg.com/736x/e7/c5/49/e7c5493ce063f5bcf512a69321c85038.jpg') center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 50px;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.8); /* White background with slight transparency */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: hsl(195, 76%, 70%); /* Sunset orange */
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%; /* Make the logo round */
+            object-fit: cover; /* Ensure the image covers the circle */
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            color: #FF6F61; /* Sunset orange */
+            text-align: left;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0 20px;
+            border-radius: 5px;
+            border: 1px solid #FF6F61; /* Sunset orange */
+            box-sizing: border-box;
+            font-size: 14px;
+            background-color: #FFE5E5; /* Light pink background */
+            color: #FF6F61; /* Sunset orange text color */
+        }
+        select {
+            background-color: #FFDDC1; /* Light peach background for dropdown */
+        }
+        input:focus, select:focus {
+            border-color: #FF6F61; /* Sunset orange border on focus */
+            outline: none;
+            background-color: #FFD6D6; /* Slightly darker pink background on focus */
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #FF6F61; /* Sunset orange */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #FF4C4C; /* Darker sunset orange on hover */
+        }
+        .result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #FF6F61; /* Sunset orange */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.pinimg.com/736x/67/12/50/671250d145cca0365268197392d67ad1.jpg" alt="Logo" class="logo">
+    <h1>Uncover the Cost of Your Flight Journey!</h1>
+    <form id="predictionForm">
+        <div class="form-group">
+            <label for="airline">Airline:</label>
+            <select id="airline" required>
+                <option value="">Select Airline</option>
+                <option value="IndiGo">IndiGo</option>
+                <option value="Air India">Air India</option>
+                <option value="Jet Airways">Jet Airways</option>
+                <option value="SpiceJet">SpiceJet</option>
+                <option value="Multiple carriers">Multiple carriers</option>
+                <option value="GoAir">GoAir</option>
+                <option value="Vistara">Vistara</option>
+                <option value="Air Asia">Air Asia</option>
+                <option value="Vistara Premium economy">Vistara Premium economy</option>
+                <option value="Jet Airways Business">Jet Airways Business</option>
+                <option value="Multiple carriers Premium economy">Multiple carriers Premium economy</option>
+                <option value="Trujet">Trujet</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="source">Source:</label>
+            <select id="source" required>
+                <option value="">Select Source</option>
+                <option value="New Delhi">New Delhi</option>
+                <option value="Cochin">Cochin</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Hyderabad">Hyderabad</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <select id="destination" required>
+                <option value="">Select Destination</option>
+                <option value="New Delhi">New Delhi</option>
+                <option value="Cochin">Cochin</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Hyderabad">Hyderabad</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="departureDate">Departure Date:</label>
+            <input type="date" id="departureDate" required>
+        </div>
+
+        <div class="form-group">
+            <label for="returnDate">Return Date:</label>
+            <input type="date" id="returnDate" required>
+        </div>
+
+        <button type="submit">Predict Price</button>
+    </form>
+
+    <div class="result" id="result">
+        <!-- The predicted price will be displayed here -->
+    </div>
+</div>
+
+<script>
+    document.getElementById('predictionForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // Get values from the form
+        var airline = document.getElementById('airline').value;
+        var source = document.getElementById('source').value;
+        var destination = document.getElementById('destination').value;
+        var departureDate = document.getElementById('departureDate').value;
+        var returnDate = document.getElementById('returnDate').value;
+
+        // Display the result (for demonstration purposes)
+        document.getElementById('result').innerText = `Predicted price for ${airline} from ${source} to ${destination} on ${departureDate} (returning ${returnDate}) will be displayed here.`;
+    });
+</script>
+
+</body>
+</html>
